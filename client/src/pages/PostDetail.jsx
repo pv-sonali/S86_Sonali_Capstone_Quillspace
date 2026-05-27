@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import Navbar from '../components/Navbar';
 import { AuthContext } from '../context/AuthContext';
+import { getImageUrl } from '../utils/image';
 
 const PostDetail = () => {
   const { slug } = useParams();
@@ -245,7 +246,7 @@ const PostDetail = () => {
         {post.coverImage && (
           <div className="mb-8 rounded-2xl overflow-hidden border border-border">
             <img
-              src={post.coverImage}
+              src={getImageUrl(post.coverImage)}
               alt={post.title}
               className="w-full h-64 sm:h-80 object-cover"
               onError={(e) => { e.target.style.display = 'none'; }}
