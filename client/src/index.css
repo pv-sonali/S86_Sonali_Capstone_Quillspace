@@ -1,0 +1,188 @@
+/* stylelint-disable at-rule-no-unknown -- Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+/* Force dark theme regardless of OS preference (#30) */
+html {
+  color-scheme: dark;
+  background-color: #0B1120;
+  color: #F8FAFC;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0B1120;
+  color: #F8FAFC;
+}
+
+:root {
+  --color-bg: #0B1120;
+  --color-gold: #D4A373;
+  --color-text: #F8FAFC;
+  --color-text-secondary: #CBD5E1;
+  --color-border: #334155;
+  --color-button-dark: #111827;
+}
+
+/* Global text styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+p {
+  color: var(--color-text-secondary);
+}
+
+/* Smooth transitions */
+a {
+  transition: all 0.3s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B1120;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+/* Button base reset — override Vite default styles that add a hover border */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 0;
+}
+
+button:focus-visible {
+  outline: 2px solid #D4A373;
+  outline-offset: 2px;
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* standard property for compatibility */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3; /* standard property for compatibility */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Prose content styling for blog posts */
+.prose-blog h1,
+.prose-blog h2,
+.prose-blog h3,
+.prose-blog h4 {
+  color: #F8FAFC;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-blog p {
+  color: #CBD5E1;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.prose-blog strong {
+  color: #F8FAFC;
+}
+
+.prose-blog code {
+  background: rgba(51, 65, 85, 0.5);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #D4A373;
+}
+
+.prose-blog pre {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.prose-blog blockquote {
+  border-left: 4px solid #D4A373;
+  padding-left: 1rem;
+  color: #CBD5E1;
+  font-style: italic;
+  margin: 1rem 0;
+}
+
+.prose-blog a {
+  color: #D4A373;
+  text-decoration: underline;
+}
+
+.prose-blog ul,
+.prose-blog ol {
+  color: #CBD5E1;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose-blog li {
+  margin-bottom: 0.25rem;
+}
