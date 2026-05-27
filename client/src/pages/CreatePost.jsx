@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
+import { getImageUrl } from '../utils/image';
 
 const CreatePost = () => {
   const { postId } = useParams();
@@ -228,7 +229,7 @@ const CreatePost = () => {
                 {formData.coverImage && (
                   <div className="mt-3 rounded-xl overflow-hidden border border-border h-40">
                     <img
-                      src={formData.coverImage}
+                      src={getImageUrl(formData.coverImage)}
                       alt="Cover preview"
                       className="w-full h-full object-cover"
                       onError={(e) => {

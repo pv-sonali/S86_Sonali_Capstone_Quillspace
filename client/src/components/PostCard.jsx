@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../utils/image';
 
 const PostCard = ({ post, onEdit, isOwnPost = false }) => {
   const formatDate = (date) => {
@@ -31,7 +32,7 @@ const PostCard = ({ post, onEdit, isOwnPost = false }) => {
         {post.coverImage && (
           <div className="mb-4 rounded-lg overflow-hidden border border-border -m-6 mb-6">
             <img
-              src={post.coverImage}
+              src={getImageUrl(post.coverImage)}
               alt={post.title}
               className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
             />

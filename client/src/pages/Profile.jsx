@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import PostCard from '../components/PostCard';
 import api from '../services/api';
 import { AuthContext } from '../context/AuthContext';
+import { getImageUrl } from '../utils/image';
 
 const Profile = () => {
   const { username } = useParams();
@@ -161,7 +162,7 @@ const Profile = () => {
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gold/30 flex items-center justify-center text-4xl sm:text-5xl font-bold text-gold flex-shrink-0">
                 {profileUser.profileImage ? (
                   <img
-                    src={profileUser.profileImage}
+                    src={getImageUrl(profileUser.profileImage)}
                     alt={profileUser.username}
                     className="w-full h-full rounded-full object-cover"
                     onError={(e) => { e.target.style.display = 'none'; }}
