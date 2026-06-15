@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { AuthContext } from '../context/AuthContext';
+import { Settings as SettingsIcon, User, Lock, AlertTriangle, Globe, Check, Trash2 } from 'lucide-react';
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import api from '../services/api';
 import { validatePassword } from '../utils/validation';
 
@@ -59,7 +61,7 @@ const Settings = () => {
     setProfileLoading(true);
 
     try {
-      const res = await api.put(`/users/${user._id}`, {
+      await api.put(`/users/${user._id}`, {
         username: profileData.username,
         email: profileData.email,
         bio: profileData.bio,
@@ -136,38 +138,40 @@ const Settings = () => {
     }
   };
 
-  const tabs = [
-    { id: 'profile', label: '👤 Profile', icon: '👤' },
-    { id: 'password', label: '🔐 Password', icon: '🔐' },
-    { id: 'danger', label: '⚠️ Danger Zone', icon: '⚠️' },
-  ];
-
   return (
     <div className="min-h-screen bg-bg text-text">
       <Navbar />
       <div className="flex pt-20">
         <Sidebar />
         <main className="flex-1 ml-56 px-6 py-8 max-w-3xl">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-text mb-1">⚙️ Settings</h1>
-            <p className="text-text-secondary">Manage your account settings and preferences</p>
+          <div className="mb-8 border-b border-border pb-6 flex items-center">
+            <SettingsIcon className="w-8 h-8 mr-3 text-text" />
+            <div>
+              <h1 className="text-3xl font-bold text-text">Settings</h1>
+              <p className="text-text-secondary mt-1">Manage your account preferences and profile details</p>
+            </div>
           </div>
 
           {/* Tab Navigation */}
           <div className="flex gap-1 mb-8 border-b border-border">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-5 py-3 text-sm font-medium rounded-t-lg transition-colors ${
-                  activeTab === tab.id
-                    ? 'text-gold border-b-2 border-gold -mb-px bg-gold/5'
-                    : 'text-text-secondary hover:text-text'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+            <button
+              onClick={() => setActiveTab('profile')}
+              className={`flex items-center px-5 py-3 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'profile' ? 'text-accent border-b-2 border-accent -mb-px bg-accent/5' : 'text-text-secondary hover:text-text'}`}
+            >
+              <User className="w-4 h-4 mr-2" /> Profile
+            </button>
+            <button
+              onClick={() => setActiveTab('password')}
+              className={`flex items-center px-5 py-3 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'password' ? 'text-accent border-b-2 border-accent -mb-px bg-accent/5' : 'text-text-secondary hover:text-text'}`}
+            >
+              <Lock className="w-4 h-4 mr-2" /> Password
+            </button>
+            <button
+              onClick={() => setActiveTab('danger')}
+              className={`flex items-center px-5 py-3 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'danger' ? 'text-red-400 border-b-2 border-red-500 -mb-px bg-red-500/5' : 'text-text-secondary hover:text-text'}`}
+            >
+              <AlertTriangle className="w-4 h-4 mr-2" /> Danger Zone
+            </button>
           </div>
 
           {/* Profile Tab */}
@@ -195,7 +199,7 @@ const Settings = () => {
                       name="username"
                       value={profileData.username}
                       onChange={handleProfileChange}
-                      className="w-full px-4 py-2.5 bg-button-dark border border-border rounded-lg text-text focus:outline-none focus:border-gold transition-colors"
+                      className="w-full px-4 py-2.5 bg-surface border border-border rounded-lg text-text focus:outline-none focus:border-accent transition-colors"
                     />
                   </div>
                   <div>
@@ -205,7 +209,7 @@ const Settings = () => {
                       name="email"
                       value={profileData.email}
                       onChange={handleProfileChange}
-                      className="w-full px-4 py-2.5 bg-button-dark border border-border rounded-lg text-text focus:outline-none focus:border-gold transition-colors"
+                      className="w-full px-4 py-2.5 bg-surface border border-border rounded-lg text-text focus:outline-none focus:border-accent transition-colors"
                     />
                   </div>
                 </div>
@@ -218,7 +222,7 @@ const Settings = () => {
                     value={profileData.location}
                     onChange={handleProfileChange}
                     placeholder="City, Country"
-                    className="w-full px-4 py-2.5 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors"
+                    className="w-full px-4 py-2.5 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors"
                   />
                 </div>
 
@@ -231,25 +235,24 @@ const Settings = () => {
                     rows={3}
                     maxLength={500}
                     placeholder="Tell others about yourself..."
-                    className="w-full px-4 py-2.5 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors resize-none"
+                    className="w-full px-4 py-2.5 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors resize-none"
                   />
                   <p className="text-xs text-text-secondary/50 mt-1">{profileData.bio.length}/500</p>
                 </div>
               </div>
 
-              {/* Social Links (#19) */}
               <div className="glass rounded-2xl p-6 space-y-5">
                 <h2 className="text-lg font-bold text-text">Social Links</h2>
 
                 {[
-                  { key: 'github', label: 'GitHub', placeholder: 'https://github.com/username', icon: '🐙' },
-                  { key: 'twitter', label: 'Twitter / X', placeholder: 'https://twitter.com/username', icon: '🐦' },
-                  { key: 'linkedin', label: 'LinkedIn', placeholder: 'https://linkedin.com/in/username', icon: '💼' },
-                  { key: 'website', label: 'Website', placeholder: 'https://yourwebsite.com', icon: '🌐' },
-                ].map(({ key, label, placeholder, icon }) => (
+                  { key: 'github', label: 'GitHub', placeholder: 'https://github.com/username', icon: FaGithub },
+                  { key: 'twitter', label: 'Twitter / X', placeholder: 'https://twitter.com/username', icon: FaTwitter },
+                  { key: 'linkedin', label: 'LinkedIn', placeholder: 'https://linkedin.com/in/username', icon: FaLinkedin },
+                  { key: 'website', label: 'Website', placeholder: 'https://yourwebsite.com', icon: Globe },
+                ].map(({ key, label, placeholder, icon: Icon }) => (
                   <div key={key}>
-                    <label className="block text-sm font-medium text-text mb-2">
-                      {icon} {label}
+                    <label className="block text-sm font-medium text-text mb-2 flex items-center">
+                      <Icon className="w-4 h-4 mr-2" /> {label}
                     </label>
                     <input
                       type="url"
@@ -257,7 +260,7 @@ const Settings = () => {
                       value={profileData.socialLinks[key]}
                       onChange={handleProfileChange}
                       placeholder={placeholder}
-                      className="w-full px-4 py-2.5 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors text-sm"
+                      className="w-full px-4 py-2.5 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors text-sm"
                     />
                   </div>
                 ))}
@@ -266,9 +269,9 @@ const Settings = () => {
               <button
                 type="submit"
                 disabled={profileLoading}
-                className="w-full sm:w-auto px-8 py-3 bg-gold text-button-dark font-bold rounded-xl hover:bg-yellow-400 transition-colors disabled:opacity-50"
+                className="flex items-center px-6 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50"
               >
-                {profileLoading ? 'Saving...' : '✅ Save Changes'}
+                {profileLoading ? 'Saving...' : <><Check className="w-5 h-5 mr-2" /> Save Changes</>}
               </button>
             </form>
           )}
@@ -304,7 +307,7 @@ const Settings = () => {
                       onChange={(e) => setPasswordData((prev) => ({ ...prev, [name]: e.target.value }))}
                       placeholder={placeholder}
                       autoComplete={name === 'currentPassword' ? 'current-password' : 'new-password'}
-                      className="w-full px-4 py-2.5 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors"
+                      className="w-full px-4 py-2.5 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors"
                     />
                     {hint && <p className="text-xs text-text-secondary/60 mt-1">{hint}</p>}
                   </div>
@@ -314,9 +317,9 @@ const Settings = () => {
               <button
                 type="submit"
                 disabled={passwordLoading}
-                className="w-full sm:w-auto px-8 py-3 bg-gold text-button-dark font-bold rounded-xl hover:bg-yellow-400 transition-colors disabled:opacity-50"
+                className="flex items-center px-6 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50"
               >
-                {passwordLoading ? 'Changing...' : '🔐 Change Password'}
+                {passwordLoading ? 'Updating...' : <><Check className="w-5 h-5 mr-2" /> Update Password</>}
               </button>
             </form>
           )}
@@ -325,7 +328,7 @@ const Settings = () => {
           {activeTab === 'danger' && (
             <div className="space-y-6">
               <div className="border border-red-500/30 bg-red-500/5 rounded-2xl p-6">
-                <h2 className="text-lg font-bold text-red-400 mb-2">⚠️ Delete Account</h2>
+                <h2 className="text-xl font-bold text-red-400 mb-4 flex items-center"><AlertTriangle className="w-5 h-5 mr-2" /> Delete Account</h2>
                 <p className="text-text-secondary text-sm mb-4">
                   This action is <strong className="text-text">irreversible</strong>. All your posts, comments, and data will be permanently deleted.
                 </p>
@@ -343,14 +346,14 @@ const Settings = () => {
                     value={deleteConfirm}
                     onChange={(e) => setDeleteConfirm(e.target.value)}
                     placeholder={user?.username}
-                    className="w-full px-4 py-2.5 bg-button-dark border border-red-500/30 rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-red-500 transition-colors"
+                    className="w-full px-4 py-2.5 bg-surface border border-red-500/30 rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-red-500 transition-colors"
                   />
                   <button
                     onClick={handleDeleteAccount}
                     disabled={deleteLoading || deleteConfirm !== user?.username}
-                    className="px-6 py-2.5 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    className="flex items-center px-6 py-3 bg-red-500/20 text-red-400 font-semibold rounded-lg hover:bg-red-500 hover:text-white border border-red-500/50 transition-all disabled:opacity-50"
                   >
-                    {deleteLoading ? 'Deleting...' : '🗑️ Permanently Delete Account'}
+                    {deleteLoading ? 'Processing...' : <><Trash2 className="w-5 h-5 mr-2" /> Permanently Delete Account</>}
                   </button>
                 </div>
               </div>

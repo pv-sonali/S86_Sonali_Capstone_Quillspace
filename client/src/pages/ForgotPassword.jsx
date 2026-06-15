@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { validateEmail } from '../utils/validation';
+import { Lock, Mail } from 'lucide-react';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const ForgotPassword = () => {
             {!submitted ? (
               <>
                 <div className="text-center mb-8">
-                  <span className="text-4xl mb-4 block">🔐</span>
+                  <Lock className="w-12 h-12 mx-auto text-accent mb-4" />
                   <h1 className="text-3xl font-bold text-text mb-2">Forgot Password?</h1>
                   <p className="text-text-secondary">
                     Enter your email and we'll send you a reset link.
@@ -70,7 +71,7 @@ const ForgotPassword = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@example.com"
                       autoComplete="email"
-                      className="w-full px-4 py-3 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors"
+                      className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors"
                     />
                   </div>
 
@@ -88,10 +89,10 @@ const ForgotPassword = () => {
               </>
             ) : (
               <div className="text-center">
-                <span className="text-5xl mb-6 block">📧</span>
+                <Mail className="w-16 h-16 mx-auto text-accent mb-6" />
                 <h2 className="text-2xl font-bold text-text mb-4">Check Your Email</h2>
                 <p className="text-text-secondary mb-2">
-                  If an account exists for <span className="text-gold font-medium">{email}</span>,
+                  If an account exists for <span className="text-accent font-medium">{email}</span>,
                   you will receive a password reset link shortly.
                 </p>
                 <p className="text-text-secondary/70 text-sm mb-8">
@@ -99,7 +100,7 @@ const ForgotPassword = () => {
                 </p>
                 <button
                   onClick={() => navigate('/login')}
-                  className="w-full px-6 py-3 bg-gold text-button-dark font-bold rounded-xl hover:bg-yellow-400 transition-colors"
+                  className="w-full px-6 py-3 bg-accent text-white font-bold rounded-xl hover:bg-accent-hover transition-colors"
                 >
                   Back to Sign In
                 </button>
@@ -109,7 +110,7 @@ const ForgotPassword = () => {
             <div className="text-center mt-6">
               <button
                 onClick={() => navigate('/login')}
-                className="text-text-secondary hover:text-gold transition-colors text-sm"
+                className="text-text-secondary hover:text-accent transition-colors text-sm"
               >
                 ← Back to Sign In
               </button>

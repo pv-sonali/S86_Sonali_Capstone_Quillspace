@@ -24,7 +24,7 @@ body,
 /* Force dark theme regardless of OS preference (#30) */
 html {
   color-scheme: dark;
-  background-color: #0B1120;
+  background-color: #020617;
   color: #F8FAFC;
 }
 
@@ -34,17 +34,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0B1120;
+  background-color: #020617;
   color: #F8FAFC;
 }
 
 :root {
-  --color-bg: #0B1120;
-  --color-gold: #D4A373;
+  --color-bg: #020617;
+  --color-surface: #0F172A;
+  --color-card: #111827;
+  --color-card-hover: #1E293B;
+  --color-accent: #6366F1;
+  --color-accent-hover: #818CF8;
   --color-text: #F8FAFC;
-  --color-text-secondary: #CBD5E1;
-  --color-border: #334155;
-  --color-button-dark: #111827;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-border: #1F2937;
+  --color-success: #10B981;
+  --color-error: #EF4444;
 }
 
 /* Global text styles */
@@ -73,11 +79,11 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B1120;
+  background: #020617;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #0F172A;
   border-radius: 4px;
 }
 
@@ -85,11 +91,10 @@ a {
   background: #475569;
 }
 
-/* Glass morphism effect */
+/* Glass morphism effect (Deprecated, mapped to card surface) */
 .glass {
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(51, 65, 85, 0.3);
+  background: #1E293B;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Button base reset — override Vite default styles that add a hover border */
@@ -105,7 +110,7 @@ button {
 }
 
 button:focus-visible {
-  outline: 2px solid #D4A373;
+  outline: 2px solid #6366F1;
   outline-offset: 2px;
 }
 
@@ -151,12 +156,12 @@ button:focus-visible {
   padding: 0.2em 0.4em;
   border-radius: 4px;
   font-size: 0.9em;
-  color: #D4A373;
+  color: #6366F1;
 }
 
 .prose-blog pre {
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid #334155;
+  background: #111827;
+  border: 1px solid #1F2937;
   border-radius: 8px;
   padding: 1rem;
   overflow-x: auto;
@@ -164,15 +169,15 @@ button:focus-visible {
 }
 
 .prose-blog blockquote {
-  border-left: 4px solid #D4A373;
+  border-left: 4px solid #6366F1;
   padding-left: 1rem;
-  color: #CBD5E1;
+  color: #94A3B8;
   font-style: italic;
   margin: 1rem 0;
 }
 
 .prose-blog a {
-  color: #D4A373;
+  color: #6366F1;
   text-decoration: underline;
 }
 

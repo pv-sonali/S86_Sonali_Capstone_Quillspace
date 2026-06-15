@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { getImageUrl } from '../utils/image';
+import { Edit3, Heart, MessageSquare } from 'lucide-react';
 
 const PostCard = ({ post, onEdit, isOwnPost = false }) => {
   const formatDate = (date) => {
@@ -13,7 +14,7 @@ const PostCard = ({ post, onEdit, isOwnPost = false }) => {
   const postLink = post.slug ? `/post/${post.slug}` : `/post/${post._id}`;
 
   return (
-    <article className="glass rounded-xl hover:border-gold/50 transition-all duration-300 hover:shadow-lg hover:shadow-gold/10 group relative">
+    <article className="bg-card border border-white/5 rounded-2xl p-2 sm:p-0 hover:bg-card-hover hover:-translate-y-[2px] transition-all duration-200 group relative">
       {isOwnPost && onEdit && (
         <div className="absolute top-4 right-4 z-10">
           <button
@@ -21,9 +22,9 @@ const PostCard = ({ post, onEdit, isOwnPost = false }) => {
               e.stopPropagation();
               onEdit(post._id);
             }}
-            className="text-xs px-3 py-1 bg-gold/20 text-gold hover:bg-gold/30 rounded transition-colors"
+            className="flex items-center text-xs px-3 py-1 bg-accent/20 text-accent hover:bg-accent/30 rounded transition-colors"
           >
-            ✏️ Edit
+            <Edit3 className="w-3 h-3 mr-1" /> Edit
           </button>
         </div>
       )}
@@ -40,7 +41,7 @@ const PostCard = ({ post, onEdit, isOwnPost = false }) => {
         )}
 
         {/* Title */}
-        <h3 className="text-lg sm:text-xl font-semibold text-text mb-3 group-hover:text-gold transition-colors duration-300 line-clamp-2">
+        <h3 className="text-lg sm:text-xl font-semibold text-text mb-3 group-hover:text-accent transition-colors duration-300 line-clamp-2">
           {post.title}
         </h3>
 
@@ -55,7 +56,7 @@ const PostCard = ({ post, onEdit, isOwnPost = false }) => {
             {post.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="px-2 py-1 text-xs bg-gold/10 border border-gold/20 text-gold rounded-full"
+                className="px-3 py-1 text-xs bg-accent/10 border border-accent/20 text-[#A5B4FC] rounded-full hover:bg-accent/20 transition-colors"
               >
                 #{tag}
               </span>
@@ -69,7 +70,7 @@ const PostCard = ({ post, onEdit, isOwnPost = false }) => {
         {/* Meta Information */}
         <div className="flex items-center justify-between pt-4 border-t border-border/30">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center text-xs font-bold text-gold">
+            <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-xs font-bold text-accent">
               {post.author?.username?.charAt(0).toUpperCase() || 'A'}
             </div>
             <div>
@@ -82,8 +83,8 @@ const PostCard = ({ post, onEdit, isOwnPost = false }) => {
             </div>
           </div>
           <div className="flex items-center gap-4 text-xs text-text-secondary/70">
-            <span>❤️ {post.likes?.length || 0}</span>
-            <span>💬 {post.comments?.length || 0}</span>
+            <span className="flex items-center"><Heart className="w-3 h-3 mr-1" /> {post.likes?.length || 0}</span>
+            <span className="flex items-center"><MessageSquare className="w-3 h-3 mr-1" /> {post.comments?.length || 0}</span>
           </div>
         </div>
       </Link>

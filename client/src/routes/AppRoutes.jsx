@@ -20,7 +20,7 @@ const ProtectedRoute = ({ element }) => {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-gold/30 border-t-gold rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-accent/30 border-t-accent rounded-full animate-spin" />
           <p className="text-text-secondary text-sm">Loading QuillSpace...</p>
         </div>
       </div>
@@ -32,7 +32,7 @@ const ProtectedRoute = ({ element }) => {
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Landing />} />

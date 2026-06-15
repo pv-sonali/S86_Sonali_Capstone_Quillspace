@@ -2,6 +2,7 @@ import { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Button from './Button';
 import { AuthContext } from '../context/AuthContext';
+import { Feather, PenTool, User, LogOut, Settings, Bookmark } from 'lucide-react';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -38,7 +39,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-button-dark border-b border-border z-50">
+    <nav className="fixed top-0 w-full bg-surface border-b border-border z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo */}
@@ -46,7 +47,7 @@ const Navbar = () => {
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => navigate(isLoggedIn ? '/home' : '/')}
           >
-            <span className="text-2xl">✒️</span>
+            <Feather className="w-6 h-6 sm:w-8 sm:h-8 text-text" />
             <span className="text-xl sm:text-2xl font-bold text-text">QuillSpace</span>
           </div>
 
@@ -57,7 +58,7 @@ const Navbar = () => {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-text-secondary hover:text-gold transition-colors duration-300"
+                  className="text-text-secondary hover:text-accent transition-colors duration-300"
                 >
                   {link.label}
                 </a>
@@ -72,7 +73,7 @@ const Navbar = () => {
                 <input
                   type="text"
                   placeholder="Search for blogs, writers, topics..."
-                  className="w-full px-4 py-2 bg-bg/50 border border-border rounded-lg text-sm text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold"
+                  className="w-full px-4 py-2 bg-card border border-border rounded-xl text-sm text-text placeholder-text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-200"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && e.target.value.trim()) {
                       navigate(`/home?search=${encodeURIComponent(e.target.value.trim())}`);
@@ -119,14 +120,14 @@ const Navbar = () => {
                   onClick={() => navigate('/create')}
                   className="hidden sm:inline-flex gap-2"
                 >
-                  ✍️ Write
+                  <PenTool className="w-4 h-4" /> Write
                 </Button>
 
                 {/* Profile Dropdown */}
                 <div className="relative" ref={profileMenuRef}>
                   <button
                     onClick={() => setShowProfileMenu(!showProfileMenu)}
-                    className="w-10 h-10 rounded-full bg-gold/30 flex items-center justify-center text-sm font-bold text-gold hover:bg-gold/40 transition-colors"
+                    className="w-10 h-10 rounded-full bg-accent/30 flex items-center justify-center text-sm font-bold text-accent hover:bg-accent/40 transition-colors"
                     title={user?.username}
                   >
                     {user?.username?.charAt(0).toUpperCase() || 'U'}
@@ -143,25 +144,25 @@ const Navbar = () => {
                           onClick={() => { navigate(`/profile/${user?.username}`); setShowProfileMenu(false); }}
                           className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:text-text hover:bg-bg/50 transition-colors flex items-center gap-2"
                         >
-                          👤 My Profile
+                          <User className="w-4 h-4" /> My Profile
                         </button>
                         <button
                           onClick={() => { navigate('/my-posts'); setShowProfileMenu(false); }}
                           className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:text-text hover:bg-bg/50 transition-colors flex items-center gap-2"
                         >
-                          ✍️ My Posts
+                          <PenTool className="w-4 h-4" /> My Posts
                         </button>
                         <button
                           onClick={() => { navigate('/bookmarks'); setShowProfileMenu(false); }}
                           className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:text-text hover:bg-bg/50 transition-colors flex items-center gap-2"
                         >
-                          🔖 Bookmarks
+                          <Bookmark className="w-4 h-4" /> Bookmarks
                         </button>
                         <button
                           onClick={() => { navigate('/settings'); setShowProfileMenu(false); }} // #13 — was /settings which didn't exist
                           className="w-full text-left px-4 py-2.5 text-sm text-text-secondary hover:text-text hover:bg-bg/50 transition-colors flex items-center gap-2"
                         >
-                          ⚙️ Settings
+                          <Settings className="w-4 h-4" /> Settings
                         </button>
                       </div>
                       <div className="border-t border-border py-1">
@@ -169,7 +170,7 @@ const Navbar = () => {
                           onClick={handleLogout}
                           className="w-full text-left px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2"
                         >
-                          🚪 Logout
+                          <LogOut className="w-4 h-4" /> Logout
                         </button>
                       </div>
                     </div>
@@ -213,7 +214,7 @@ const Navbar = () => {
               <a
                 key={link.label}
                 href={link.href}
-                className="block px-4 py-3 text-text-secondary hover:text-gold hover:bg-button-dark rounded-lg transition-colors"
+                className="block px-4 py-3 text-text-secondary hover:text-accent hover:bg-surface rounded-lg transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.label}
@@ -221,10 +222,10 @@ const Navbar = () => {
             ))}
             {isLoggedIn ? (
               <div className="px-4 py-2 space-y-2">
-                <button onClick={() => { navigate('/create'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-text-secondary hover:text-gold transition-colors">✍️ Write</button>
-                <button onClick={() => { navigate(`/profile/${user?.username}`); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-text-secondary hover:text-gold transition-colors">👤 Profile</button>
-                <button onClick={() => { navigate('/settings'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-text-secondary hover:text-gold transition-colors">⚙️ Settings</button>
-                <button onClick={handleLogout} className="w-full text-left py-2 text-red-400 hover:text-red-300 transition-colors">🚪 Logout</button>
+                <button onClick={() => { navigate('/create'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 flex items-center gap-2 text-text-secondary hover:text-accent transition-colors"><PenTool className="w-4 h-4" /> Write</button>
+                <button onClick={() => { navigate(`/profile/${user?.username}`); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 flex items-center gap-2 text-text-secondary hover:text-accent transition-colors"><User className="w-4 h-4" /> Profile</button>
+                <button onClick={() => { navigate('/settings'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 flex items-center gap-2 text-text-secondary hover:text-accent transition-colors"><Settings className="w-4 h-4" /> Settings</button>
+                <button onClick={handleLogout} className="w-full text-left py-2 flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors"><LogOut className="w-4 h-4" /> Logout</button>
               </div>
             ) : (
               <div className="px-4 py-3 flex gap-3">

@@ -3,7 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { AuthContext } from '../context/AuthContext';
-import { validateEmail, validatePassword } from '../utils/validation'; // #37
+import { validateEmail, validatePassword } from '../utils/validation';
+import { Feather } from 'lucide-react';
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -62,7 +63,7 @@ const Login = () => {
             {/* Header */}
             <div className="text-center mb-8">
               <div className="inline-block mb-4">
-                <span className="text-4xl">✒️</span>
+                <Feather className="w-12 h-12 text-accent mx-auto" />
               </div>
               <h1 className="text-3xl font-bold text-text mb-2">Welcome Back</h1>
               <p className="text-text-secondary">Sign in to your QuillSpace account</p>
@@ -88,7 +89,7 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   autoComplete="email"
-                  className="w-full px-4 py-3 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors duration-300"
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors duration-300"
                 />
               </div>
 
@@ -104,7 +105,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     autoComplete="current-password"
-                    className="w-full px-4 py-3 pr-11 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors duration-300"
+                    className="w-full px-4 py-3 pr-11 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors duration-300"
                   />
                   <button
                     type="button"
@@ -130,7 +131,7 @@ const Login = () => {
               <div className="flex justify-end text-sm">
                 <Link
                   to="/forgot-password"
-                  className="text-gold hover:text-yellow-400 transition-colors"
+                  className="text-accent hover:text-yellow-400 transition-colors"
                 >
                   Forgot password?
                 </Link>
@@ -155,7 +156,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => navigate('/signup')}
-                className="text-gold hover:text-yellow-400 font-semibold transition-colors"
+                className="text-accent hover:text-yellow-400 font-semibold transition-colors"
               >
                 Sign up free
               </button>
@@ -167,7 +168,7 @@ const Login = () => {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="text-text-secondary hover:text-gold transition-colors text-sm"
+              className="text-text-secondary hover:text-accent transition-colors text-sm"
             >
               ← Back to Home
             </button>

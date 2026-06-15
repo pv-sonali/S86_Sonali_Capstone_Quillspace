@@ -31,7 +31,7 @@ const Features = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <span className="inline-block px-4 py-2 rounded-full bg-gold/10 border border-gold/30 text-gold text-sm font-semibold mb-4">
+          <span className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-semibold mb-4">
             Features
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text mb-4">
@@ -47,7 +47,7 @@ const Features = () => {
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="glass p-6 sm:p-8 rounded-2xl hover:border-gold/50 transition-all duration-300 hover:shadow-lg hover:shadow-gold/10 group cursor-pointer"
+              className="glass p-6 sm:p-8 rounded-2xl hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10 group cursor-pointer"
             >
               {/* Icon */}
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -65,7 +65,7 @@ const Features = () => {
               </p>
 
               {/* Hover Effect Line */}
-              <div className="mt-4 h-1 w-0 bg-gold rounded-full group-hover:w-8 transition-all duration-300"></div>
+              <div className="mt-4 h-1 w-0 bg-accent rounded-full group-hover:w-8 transition-all duration-300"></div>
             </div>
           ))}
         </div>

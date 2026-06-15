@@ -4,6 +4,10 @@ import api from '../services/api';
 import Navbar from '../components/Navbar';
 import { AuthContext } from '../context/AuthContext';
 import { getImageUrl } from '../utils/image';
+import { FileText, Heart, Bookmark, Link as LinkIcon, Edit3, MessageSquare, Trash2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
 
 const PostDetail = () => {
   const { slug } = useParams();
@@ -188,6 +192,17 @@ const PostDetail = () => {
     }
   };
 
+  const handleDeletePost = async () => {
+    if (!window.confirm('Are you sure you want to delete this post? This action cannot be undone.')) return;
+    try {
+      await api.delete(`/posts/${post._id}`);
+      navigate('/home');
+    } catch (err) {
+      console.error('Failed to delete post:', err);
+      alert(err.response?.data?.message || 'Failed to delete post.');
+    }
+  };
+
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -203,7 +218,7 @@ const PostDetail = () => {
       <div className="min-h-screen bg-bg flex items-center justify-center">
         <Navbar />
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-gold/30 border-t-gold rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-accent/30 border-t-accent rounded-full animate-spin" />
           <p className="text-text-secondary">Loading post...</p>
         </div>
       </div>
@@ -215,12 +230,12 @@ const PostDetail = () => {
       <div className="min-h-screen bg-bg text-text">
         <Navbar />
         <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-          <p className="text-6xl">📄</p>
+          <FileText className="w-16 h-16 text-text-secondary/50" />
           <h2 className="text-2xl font-bold text-text">Post Not Found</h2>
           <p className="text-text-secondary max-w-md text-center">{error}</p>
           <button
             onClick={() => navigate('/home')}
-            className="mt-4 px-6 py-2 bg-gold text-button-dark font-semibold rounded-lg hover:bg-yellow-400 transition-colors"
+            className="mt-4 px-6 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors"
           >
             ← Back to Home
           </button>
@@ -237,7 +252,7 @@ const PostDetail = () => {
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-text-secondary hover:text-gold transition-colors mb-8"
+          className="flex items-center gap-2 text-text-secondary hover:text-accent transition-colors mb-8"
         >
           ← Back
         </button>
@@ -260,7 +275,7 @@ const PostDetail = () => {
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 text-xs bg-gold/10 border border-gold/20 text-gold rounded-full"
+                className="px-3 py-1 text-xs bg-accent/10 border border-accent/20 text-accent rounded-full"
               >
                 #{tag}
               </span>
@@ -277,12 +292,12 @@ const PostDetail = () => {
         <div className="flex items-center justify-between flex-wrap gap-4 pb-6 border-b border-border mb-8">
           <div className="flex items-center gap-3">
             <Link to={`/profile/${post.author?.username}`}>
-              <div className="w-12 h-12 rounded-full bg-gold/30 flex items-center justify-center font-bold text-gold text-lg hover:bg-gold/40 transition-colors">
+              <div className="w-12 h-12 rounded-full bg-accent/30 flex items-center justify-center font-bold text-accent text-lg hover:bg-accent/40 transition-colors">
                 {post.author?.username?.charAt(0).toUpperCase() || 'A'}
               </div>
             </Link>
             <div>
-              <Link to={`/profile/${post.author?.username}`} className="font-semibold text-text hover:text-gold transition-colors">
+              <Link to={`/profile/${post.author?.username}`} className="font-semibold text-text hover:text-accent transition-colors">
                 {post.author?.username || 'Unknown'}
               </Link>
               <p className="text-text-secondary text-sm">
@@ -304,7 +319,7 @@ const PostDetail = () => {
                   : 'border-border text-text-secondary hover:border-red-400/50 hover:text-red-400'
               } disabled:opacity-50`}
             >
-              <span>{liked ? '❤️' : '🤍'}</span>
+              <span>{liked ? <Heart className="w-4 h-4 fill-current text-red-400" /> : <Heart className="w-4 h-4" />}</span>
               <span>{likeCount}</span>
             </button>
 
@@ -314,44 +329,57 @@ const PostDetail = () => {
               disabled={bookmarkLoading}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-lg border transition-all duration-200 text-sm font-medium ${
                 bookmarked
-                  ? 'bg-gold/20 border-gold/50 text-gold'
-                  : 'border-border text-text-secondary hover:border-gold/50 hover:text-gold'
+                  ? 'bg-accent/20 border-accent/50 text-accent'
+                  : 'border-border text-text-secondary hover:border-accent/50 hover:text-accent'
               } disabled:opacity-50`}
             >
-              <span>{bookmarked ? '🔖' : '📌'}</span>
+              <span>{bookmarked ? <Bookmark className="w-4 h-4 fill-current text-accent" /> : <Bookmark className="w-4 h-4" />}</span>
               <span>{bookmarked ? 'Saved' : 'Save'}</span>
             </button>
 
             {/* Share Button (#21, #32) */}
             <button
               onClick={handleShare}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-border text-text-secondary hover:border-gold/50 hover:text-gold transition-all duration-200 text-sm font-medium"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-border text-text-secondary hover:border-accent/50 hover:text-accent transition-all duration-200 text-sm font-medium"
             >
-              <span>🔗</span>
+              <span><LinkIcon className="w-4 h-4" /></span>
               <span>{shareCopied ? 'Copied!' : 'Share'}</span>
             </button>
 
-            {/* Edit Button (owner only) */}
+            {/* Edit & Delete Buttons (owner only) */}
             {isPostOwner && (
-              <button
-                onClick={() => navigate(`/edit/${post._id}`)}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gold/40 text-gold hover:bg-gold/10 transition-all duration-200 text-sm font-medium"
-              >
-                ✏️ Edit
-              </button>
+              <>
+                <button
+                  onClick={() => navigate(`/edit/${post._id}`)}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-accent/40 text-accent hover:bg-accent/10 transition-all duration-200 text-sm font-medium"
+                >
+                  <Edit3 className="w-4 h-4" /> Edit
+                </button>
+                <button
+                  onClick={handleDeletePost}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-red-500/40 text-red-400 hover:bg-red-500/10 transition-all duration-200 text-sm font-medium"
+                >
+                  <Trash2 className="w-4 h-4" /> Delete
+                </button>
+              </>
             )}
           </div>
         </div>
 
         {/* Post Content */}
-        <div className="prose-blog whitespace-pre-wrap text-text-secondary leading-8 mb-16 text-base sm:text-lg">
-          {post.content}
+        <div className="prose-blog text-text-secondary leading-8 mb-16 text-base sm:text-lg overflow-hidden">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeSanitize]}
+          >
+            {post.content}
+          </ReactMarkdown>
         </div>
 
         {/* Comments Section */}
         <div className="border-t border-border pt-8">
-          <h2 className="text-2xl font-bold text-text mb-6">
-            💬 Comments ({comments.length}) {/* #33 — shows live comments array length */}
+          <h2 className="text-2xl font-bold text-text mb-6 flex items-center">
+            <MessageSquare className="w-6 h-6 mr-2" /> Comments ({comments.length}) {/* #33 — shows live comments array length */}
           </h2>
 
           {/* Comment Form */}
@@ -363,7 +391,7 @@ const PostDetail = () => {
                 </div>
               )}
               <div className="flex gap-3">
-                <div className="w-10 h-10 rounded-full bg-gold/30 flex items-center justify-center font-bold text-gold text-sm flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-accent/30 flex items-center justify-center font-bold text-accent text-sm flex-shrink-0">
                   {user?.username?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <div className="flex-1">
@@ -373,14 +401,14 @@ const PostDetail = () => {
                     placeholder="Share your thoughts..."
                     rows={3}
                     maxLength={1000}
-                    className="w-full px-4 py-3 bg-button-dark border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors resize-none text-sm"
+                    className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors resize-none text-sm"
                   />
                   <div className="flex items-center justify-between mt-2">
                     <span className="text-xs text-text-secondary/50">{newComment.length}/1000</span>
                     <button
                       type="submit"
                       disabled={commentLoading || !newComment.trim()}
-                      className="px-5 py-2 bg-gold text-button-dark font-semibold rounded-lg hover:bg-yellow-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                      className="px-5 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                     >
                       {commentLoading ? 'Posting...' : 'Post Comment'}
                     </button>
@@ -393,7 +421,7 @@ const PostDetail = () => {
               <p className="text-text-secondary mb-3">Join the conversation</p>
               <button
                 onClick={() => navigate('/login')}
-                className="px-5 py-2 bg-gold text-button-dark font-semibold rounded-lg hover:bg-yellow-400 transition-colors text-sm"
+                className="px-5 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors text-sm"
               >
                 Sign in to comment
               </button>
@@ -403,14 +431,14 @@ const PostDetail = () => {
           {/* Comments List */}
           {comments.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-3xl mb-3">💬</p>
+              <MessageSquare className="w-12 h-12 mx-auto mb-3 text-text-secondary/50" />
               <p className="text-text-secondary">No comments yet. Be the first to comment!</p>
             </div>
           ) : (
             <div className="space-y-4">
               {comments.map((comment) => (
-                <div key={comment._id} className="flex gap-3 p-4 bg-button-dark border border-border rounded-xl">
-                  <div className="w-9 h-9 rounded-full bg-gold/20 flex items-center justify-center font-bold text-gold text-xs flex-shrink-0">
+                <div key={comment._id} className="flex gap-3 p-4 bg-surface border border-border rounded-xl">
+                  <div className="w-9 h-9 rounded-full bg-accent/20 flex items-center justify-center font-bold text-accent text-xs flex-shrink-0">
                     {comment.author?.username?.charAt(0).toUpperCase() || '?'}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -427,7 +455,7 @@ const PostDetail = () => {
                       className="text-text-secondary/40 hover:text-red-400 transition-colors flex-shrink-0 text-xs mt-0.5"
                       title="Delete comment"
                     >
-                      🗑️
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   )}
                 </div>

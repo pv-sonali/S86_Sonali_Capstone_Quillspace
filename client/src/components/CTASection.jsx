@@ -47,8 +47,8 @@ const CTASection = () => {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-72 h-72 bg-gold/5 rounded-full filter blur-3xl -mr-36 z-10"></div>
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-gold/5 rounded-full filter blur-3xl -ml-36 z-10"></div>
+      <div className="absolute top-0 right-0 w-72 h-72 bg-accent/5 rounded-full filter blur-3xl -mr-36 z-10"></div>
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-accent/5 rounded-full filter blur-3xl -ml-36 z-10"></div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center">
         {/* Heading */}

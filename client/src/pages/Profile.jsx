@@ -5,6 +5,8 @@ import Sidebar from '../components/Sidebar';
 import PostCard from '../components/PostCard';
 import api from '../services/api';
 import { AuthContext } from '../context/AuthContext';
+import { User, MapPin, Edit3, Globe, FileText, PenTool } from 'lucide-react';
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { getImageUrl } from '../utils/image';
 
 const Profile = () => {
@@ -102,17 +104,14 @@ const Profile = () => {
     });
   };
 
-  // Filtered posts per tab — compute counts correctly (#46)
   const publishedPosts = posts.filter((p) => p.status === 'published');
   const draftPosts = isOwnProfile ? posts.filter((p) => p.status === 'draft') : [];
 
-  // Real stats (#17 — was using fake posts*100 formula)
   const totalViews = posts.reduce((sum, p) => sum + (p.views || 0), 0);
-  const totalLikes = posts.reduce((sum, p) => sum + (p.likes?.length || 0), 0);
 
   const tabs = [
     { id: 'published', label: 'Published', count: publishedPosts.length },
-    ...(isOwnProfile ? [{ id: 'drafts', label: 'Drafts', count: draftPosts.length }] : []), // #22 — drafts tab only for own profile
+    ...(isOwnProfile ? [{ id: 'drafts', label: 'Drafts', count: draftPosts.length }] : []),
   ];
 
   const currentPosts = activeTab === 'drafts' ? draftPosts : publishedPosts;
@@ -122,7 +121,7 @@ const Profile = () => {
       <div className="min-h-screen bg-bg flex items-center justify-center">
         <Navbar />
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-gold/30 border-t-gold rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-accent/30 border-t-accent rounded-full animate-spin" />
           <p className="text-text-secondary">Loading profile...</p>
         </div>
       </div>
@@ -134,12 +133,12 @@ const Profile = () => {
       <div className="min-h-screen bg-bg text-text">
         <Navbar />
         <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-          <p className="text-6xl">👤</p>
+          <User className="w-16 h-16 text-text-secondary" />
           <h2 className="text-2xl font-bold">User Not Found</h2>
           <p className="text-text-secondary">{error}</p>
           <button
             onClick={() => navigate('/home')}
-            className="px-6 py-2 bg-gold text-button-dark font-semibold rounded-lg hover:bg-yellow-400 transition-colors"
+            className="px-6 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors"
           >
             Back to Home
           </button>
@@ -155,11 +154,9 @@ const Profile = () => {
         <Sidebar />
         <main className="flex-1 ml-56 px-6 py-8 max-w-5xl">
 
-          {/* Profile Header */}
           <div className="glass rounded-2xl p-6 sm:p-8 mb-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              {/* Avatar */}
-              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gold/30 flex items-center justify-center text-4xl sm:text-5xl font-bold text-gold flex-shrink-0">
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-bg bg-accent/20 flex items-center justify-center relative z-10 text-accent shadow-xl">
                 {profileUser.profileImage ? (
                   <img
                     src={getImageUrl(profileUser.profileImage)}
@@ -168,18 +165,17 @@ const Profile = () => {
                     onError={(e) => { e.target.style.display = 'none'; }}
                   />
                 ) : (
-                  profileUser.username?.charAt(0).toUpperCase()
+                  <User className="w-16 h-16" />
                 )}
               </div>
 
-              {/* Profile Info */}
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <h1 className="text-2xl sm:text-3xl font-bold text-text">{profileUser.username}</h1>
                     {profileUser.location && (
-                      <p className="text-text-secondary text-sm mt-1">
-                        📍 {profileUser.location} {/* #45 — real location from DB */}
+                      <p className="flex items-center text-text-secondary text-sm mt-1">
+                        <MapPin className="w-4 h-4 mr-1" /> {profileUser.location}
                       </p>
                     )}
                     <p className="text-text-secondary/70 text-sm mt-1">
@@ -187,35 +183,30 @@ const Profile = () => {
                     </p>
                   </div>
 
-                  {/* Action Buttons */}
                   <div className="flex gap-2 flex-wrap">
                     {isOwnProfile ? (
                       <button
                         onClick={() => navigate('/settings')}
-                        className="px-5 py-2 border border-gold text-gold rounded-lg hover:bg-gold/10 transition-colors text-sm font-medium"
+                        className="flex items-center px-4 py-2 border border-accent/50 text-accent rounded-lg hover:bg-accent/10 transition-colors text-sm font-medium whitespace-nowrap"
                       >
-                        ✏️ Edit Profile
+                        <Edit3 className="w-4 h-4 mr-2" /> Edit Profile
                       </button>
                     ) : (
-                      <>
-                        {/* Real Follow button (#14) */}
-                        <button
-                          onClick={handleFollow}
-                          disabled={followLoading}
-                          className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 ${
-                            isFollowing
-                              ? 'bg-gold/20 text-gold border border-gold/40 hover:bg-red-500/20 hover:text-red-400 hover:border-red-400/40'
-                              : 'bg-gold text-button-dark hover:bg-yellow-400'
-                          }`}
-                        >
-                          {followLoading ? '...' : isFollowing ? 'Following ✓' : 'Follow'}
-                        </button>
-                      </>
+                      <button
+                        onClick={handleFollow}
+                        disabled={followLoading}
+                        className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 ${
+                          isFollowing
+                            ? 'bg-accent/20 text-accent border border-accent/40 hover:bg-red-500/20 hover:text-red-400 hover:border-red-400/40'
+                            : 'bg-accent text-white hover:bg-accent-hover'
+                        }`}
+                      >
+                        {followLoading ? '...' : isFollowing ? 'Following ✓' : 'Follow'}
+                      </button>
                     )}
                   </div>
                 </div>
 
-                {/* Bio */}
                 {profileUser.bio && (
                   <p className="text-text-secondary mt-4 leading-relaxed">
                     {profileUser.bio}
@@ -224,7 +215,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Stats Row — Real data (#17) */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-border">
               <div className="text-center">
                 <p className="text-2xl font-bold text-text">{publishedPosts.length}</p>
@@ -244,56 +234,33 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Social Links — Real links (#19) */}
             {profileUser.socialLinks && Object.values(profileUser.socialLinks).some(Boolean) && (
               <div className="flex flex-wrap gap-3 mt-5 pt-5 border-t border-border">
                 {profileUser.socialLinks.github && (
-                  <a
-                    href={profileUser.socialLinks.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-1.5 bg-bg/50 border border-border rounded-lg text-text-secondary hover:text-gold hover:border-gold/50 transition-colors text-sm"
-                  >
-                    🐙 GitHub
+                  <a href={profileUser.socialLinks.github} target="_blank" rel="noopener noreferrer" className="flex items-center text-text-secondary hover:text-accent transition-colors text-sm">
+                    <FaGithub className="w-4 h-4 mr-2" /> GitHub
                   </a>
                 )}
                 {profileUser.socialLinks.twitter && (
-                  <a
-                    href={profileUser.socialLinks.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-1.5 bg-bg/50 border border-border rounded-lg text-text-secondary hover:text-gold hover:border-gold/50 transition-colors text-sm"
-                  >
-                    🐦 Twitter/X
+                  <a href={profileUser.socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="flex items-center text-text-secondary hover:text-accent transition-colors text-sm">
+                    <FaTwitter className="w-4 h-4 mr-2" /> Twitter/X
                   </a>
                 )}
                 {profileUser.socialLinks.linkedin && (
-                  <a
-                    href={profileUser.socialLinks.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-1.5 bg-bg/50 border border-border rounded-lg text-text-secondary hover:text-gold hover:border-gold/50 transition-colors text-sm"
-                  >
-                    💼 LinkedIn
+                  <a href={profileUser.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center text-text-secondary hover:text-accent transition-colors text-sm">
+                    <FaLinkedin className="w-4 h-4 mr-2" /> LinkedIn
                   </a>
                 )}
                 {profileUser.socialLinks.website && (
-                  <a
-                    href={profileUser.socialLinks.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-1.5 bg-bg/50 border border-border rounded-lg text-text-secondary hover:text-gold hover:border-gold/50 transition-colors text-sm"
-                  >
-                    🌐 Website
+                  <a href={profileUser.socialLinks.website} target="_blank" rel="noopener noreferrer" className="flex items-center text-text-secondary hover:text-accent transition-colors text-sm">
+                    <Globe className="w-4 h-4 mr-2" /> Website
                   </a>
                 )}
               </div>
             )}
           </div>
 
-          {/* Posts Section */}
           <div>
-            {/* Tab Navigation */}
             <div className="flex gap-1 mb-6 border-b border-border">
               {tabs.map((tab) => (
                 <button
@@ -301,15 +268,14 @@ const Profile = () => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`px-5 py-3 text-sm font-medium rounded-t-lg transition-colors flex items-center gap-2 ${
                     activeTab === tab.id
-                      ? 'text-gold border-b-2 border-gold -mb-px bg-gold/5'
+                      ? 'text-accent border-b-2 border-accent -mb-px bg-accent/5'
                       : 'text-text-secondary hover:text-text'
                   }`}
                 >
                   {tab.label}
-                  {/* #46 — correct per-tab count */}
                   <span className={`px-2 py-0.5 rounded-full text-xs ${
                     activeTab === tab.id
-                      ? 'bg-gold/20 text-gold'
+                      ? 'bg-accent/20 text-accent'
                       : 'bg-border text-text-secondary'
                   }`}>
                     {tab.count}
@@ -318,14 +284,13 @@ const Profile = () => {
               ))}
             </div>
 
-            {/* Posts List */}
             {currentPosts.length === 0 ? (
-              <div className="text-center py-16">
-                <p className="text-4xl mb-4">📝</p>
-                <h3 className="text-lg font-bold text-text mb-2">
+              <div className="text-center py-16 bg-bg-secondary rounded-2xl border border-border">
+                <FileText className="w-12 h-12 mx-auto mb-4 text-text-secondary/50" />
+                <h3 className="text-xl font-bold text-text mb-2">
                   {activeTab === 'drafts' ? 'No drafts yet' : 'No posts published yet'}
                 </h3>
-                <p className="text-text-secondary mb-6">
+                <p className="text-text-secondary mb-6 max-w-md mx-auto">
                   {isOwnProfile
                     ? activeTab === 'drafts'
                       ? 'Save a post as draft to see it here.'
@@ -335,9 +300,9 @@ const Profile = () => {
                 {isOwnProfile && (
                   <button
                     onClick={() => navigate('/create')}
-                    className="px-6 py-3 bg-gold text-button-dark font-semibold rounded-lg hover:bg-yellow-400 transition-colors"
+                    className="flex items-center mx-auto px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors"
                   >
-                    ✍️ Write your first post
+                    <PenTool className="w-5 h-5 mr-2" /> Write your first post
                   </button>
                 )}
               </div>
