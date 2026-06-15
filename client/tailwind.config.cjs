@@ -5,15 +5,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'bg': '#0B1120',
-        'gold': '#D4A373',
+        'bg': '#020617',
+        'surface': '#0F172A',
+        'card': '#111827',
+        'card-hover': '#1E293B',
+        'accent': '#6366F1',
+        'accent-hover': '#818CF8',
         'text': '#F8FAFC',
-        'text-secondary': '#CBD5E1',
-        'border': '#334155',
-        'button-dark': '#111827',
+        'text-secondary': '#94A3B8',
+        'text-muted': '#64748B',
+        'border': '#1F2937',
+        'success': '#10B981',
+        'error': '#EF4444',
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #0B1120 0%, #1a1f3a 50%, #0B1120 100%)',
+        'hero-gradient': 'linear-gradient(135deg, #020617 0%, #0F172A 50%, #020617 100%)',
       },
       spacing: {
         'safe-top': 'max(1rem, env(safe-area-inset-top))',

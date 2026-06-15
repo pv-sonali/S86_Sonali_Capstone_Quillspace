@@ -80,21 +80,21 @@ const HeroSection = () => {
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-bg/90" />
         {/* Decorative orbs */}
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold/3 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/3 rounded-full blur-3xl" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/30 text-gold text-sm font-semibold mb-6 animate-fade-in">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-semibold mb-6 animate-fade-in">
           <span>✨</span>
           <span>The Modern Writers Platform</span>
         </div>
 
         {/* Main Heading */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text mb-4 sm:mb-6 leading-tight">
-          Welcome to <span className="text-gold">QuillSpace</span>
+          Welcome to <span className="text-accent">QuillSpace</span>
         </h1>
 
         {/* Subheading */}
@@ -134,17 +134,17 @@ const HeroSection = () => {
           </p>
           <div className="flex justify-center items-center gap-4 sm:gap-8 flex-wrap">
             <div className="text-center">
-              <p className="text-gold font-bold text-lg sm:text-xl">{formatCount(stats.posts)}</p>
+              <p className="text-accent font-bold text-lg sm:text-xl">{formatCount(stats.posts)}</p>
               <p className="text-text-secondary/70 text-xs">Posts Published</p>
             </div>
             <div className="w-px h-8 bg-border/50 hidden sm:block" />
             <div className="text-center">
-              <p className="text-gold font-bold text-lg sm:text-xl">{formatCount(stats.writers)}</p>
+              <p className="text-accent font-bold text-lg sm:text-xl">{formatCount(stats.writers)}</p>
               <p className="text-text-secondary/70 text-xs">Writers</p>
             </div>
             <div className="w-px h-8 bg-border/50 hidden sm:block" />
             <div className="text-center">
-              <p className="text-gold font-bold text-lg sm:text-xl">{formatCount(stats.comments)}</p>
+              <p className="text-accent font-bold text-lg sm:text-xl">{formatCount(stats.comments)}</p>
               <p className="text-text-secondary/70 text-xs">Comments</p>
             </div>
           </div>
@@ -152,7 +152,7 @@ const HeroSection = () => {
 
         {/* Scroll Indicator */}
         <div className="mt-6 sm:mt-8 flex flex-col items-center gap-2">
-          <svg className="w-5 h-5 text-gold animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-accent animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
           <span className="text-text-secondary/60 text-xs">Scroll to explore</span>

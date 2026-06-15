@@ -30,9 +30,9 @@ const Button = ({
   const baseStyles = 'font-semibold rounded-lg transition-all duration-300 ease-in-out inline-flex items-center justify-center gap-2 cursor-pointer';
 
   const variants = {
-    primary: 'bg-gold text-button-dark hover:bg-yellow-400 active:scale-95 shadow-lg hover:shadow-xl',
-    secondary: 'border border-gold text-gold hover:bg-gold hover:text-button-dark active:scale-95',
-    ghost: 'text-text hover:text-gold',
+    primary: 'bg-accent text-white hover:bg-accent-hover active:scale-95 hover:scale-[1.02] shadow-sm',
+    secondary: 'bg-transparent border border-border text-text-secondary hover:border-accent hover:text-white active:scale-95',
+    ghost: 'text-text-secondary hover:text-accent',
   };
 
   const sizes = {

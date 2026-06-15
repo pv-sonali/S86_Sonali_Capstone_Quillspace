@@ -4,6 +4,8 @@ import Navbar from '../components/Navbar';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
 import { getImageUrl } from '../utils/image';
+import { Edit3, PenTool, Upload, Send, FileText, Check } from 'lucide-react';
+import MDEditor from '@uiw/react-md-editor';
 
 const CreatePost = () => {
   const { postId } = useParams();
@@ -161,8 +163,8 @@ const CreatePost = () => {
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-text">
-              {isEditing ? '✏️ Edit Post' : '✍️ Create Post'}
+            <h1 className="text-3xl font-bold text-text flex items-center">
+              {isEditing ? <><Edit3 className="w-8 h-8 mr-3" /> Edit Post</> : <><PenTool className="w-8 h-8 mr-3" /> Create Post</>}
             </h1>
             <p className="text-text-secondary mt-1">
               {isEditing ? 'Update your article' : 'Share your ideas with the community'}
@@ -170,7 +172,7 @@ const CreatePost = () => {
           </div>
           <button
             onClick={() => navigate(-1)}
-            className="text-text-secondary hover:text-gold transition-colors text-sm"
+            className="text-text-secondary hover:text-accent transition-colors text-sm"
           >
             ← Back
           </button>
@@ -198,7 +200,7 @@ const CreatePost = () => {
                   onChange={handleChange}
                   placeholder="An interesting title for your post..."
                   maxLength={200}
-                  className="w-full px-4 py-3 bg-button-dark border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors text-lg"
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors text-lg"
                 />
                 <p className="text-xs text-text-secondary/50 mt-1">{formData.title.length}/200</p>
               </div>
@@ -213,10 +215,10 @@ const CreatePost = () => {
                     value={formData.coverImage}
                     onChange={handleChange}
                     placeholder="https://example.com/image.jpg or upload below"
-                    className="flex-1 px-4 py-3 bg-button-dark border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors text-sm"
+                    className="flex-1 px-4 py-3 bg-surface border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors text-sm"
                   />
-                  <label className="px-4 py-3 bg-button-dark border border-border rounded-xl text-text-secondary hover:text-gold hover:border-gold transition-colors cursor-pointer text-sm whitespace-nowrap">
-                    {imageUploading ? 'Uploading...' : '📁 Upload'}
+                  <label className="flex items-center px-4 py-3 bg-surface border border-border rounded-xl text-text-secondary hover:text-accent hover:border-accent transition-colors cursor-pointer text-sm whitespace-nowrap">
+                    {imageUploading ? 'Uploading...' : <><Upload className="w-4 h-4 mr-2" /> Upload</>}
                     <input
                       type="file"
                       accept="image/*"
@@ -246,14 +248,15 @@ const CreatePost = () => {
                 <label className="block text-sm font-semibold text-text mb-2">
                   Content <span className="text-red-400">*</span>
                 </label>
-                <textarea
-                  name="content"
-                  value={formData.content}
-                  onChange={handleChange}
-                  placeholder="Write your post content here. Share your knowledge, ideas, or stories..."
-                  rows={18}
-                  className="w-full px-4 py-3 bg-button-dark border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors resize-y text-sm leading-relaxed"
-                />
+                <div data-color-mode="dark" className="rounded-xl overflow-hidden">
+                  <MDEditor
+                    value={formData.content}
+                    onChange={(val) => setFormData((prev) => ({ ...prev, content: val || '' }))}
+                    preview="live"
+                    height={500}
+                    className="w-full bg-surface border border-border focus-within:border-accent transition-colors text-sm"
+                  />
+                </div>
                 <p className="text-xs text-text-secondary/50 mt-1">{formData.content.length} characters</p>
               </div>
 
@@ -268,12 +271,12 @@ const CreatePost = () => {
                   value={formData.tags}
                   onChange={handleChange}
                   placeholder="technology, programming, design, ai"
-                  className="w-full px-4 py-3 bg-button-dark border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors text-sm"
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors text-sm"
                 />
                 {formData.tags && (
                   <div className="flex flex-wrap gap-2 mt-2">
                     {formData.tags.split(',').map((t) => t.trim()).filter(Boolean).map((tag) => (
-                      <span key={tag} className="px-2 py-1 text-xs bg-gold/10 border border-gold/20 text-gold rounded-full">
+                      <span key={tag} className="px-3 py-1 text-xs bg-accent/10 border border-accent/20 text-[#A5B4FC] rounded-full">
                         #{tag}
                       </span>
                     ))}
@@ -287,17 +290,17 @@ const CreatePost = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex-1 sm:flex-none px-8 py-3 bg-gold text-button-dark font-bold rounded-xl hover:bg-yellow-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center flex-1 sm:flex-none px-8 py-3 bg-accent text-white font-bold rounded-xl hover:bg-accent-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Publishing...' : isEditing ? '✅ Update Post' : '🚀 Publish'}
+                {isLoading ? 'Publishing...' : isEditing ? <><Check className="w-5 h-5 mr-2" /> Update Post</> : <><Send className="w-5 h-5 mr-2" /> Publish</>}
               </button>
               <button
                 type="button"
                 disabled={isLoading}
                 onClick={(e) => handleSubmit(e, 'draft')}
-                className="flex-1 sm:flex-none px-8 py-3 border border-border text-text-secondary rounded-xl hover:border-gold hover:text-gold transition-colors disabled:opacity-50"
+                className="flex items-center justify-center flex-1 sm:flex-none px-8 py-3 border border-border text-text-secondary rounded-xl hover:border-accent hover:text-accent transition-colors disabled:opacity-50"
               >
-                📝 Save as Draft
+                <FileText className="w-5 h-5 mr-2" /> Save as Draft
               </button>
               <button
                 type="button"

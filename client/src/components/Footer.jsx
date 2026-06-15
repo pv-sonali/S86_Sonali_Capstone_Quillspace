@@ -31,13 +31,13 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-button-dark border-t border-border text-text-secondary">
+    <footer className="bg-surface border-t border-border text-text-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Footer Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 mb-12">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 mb-4 cursor-pointer hover:text-gold transition-colors" onClick={() => navigate('/')}>
+            <div className="flex items-center gap-2 mb-4 cursor-pointer hover:text-accent transition-colors" onClick={() => navigate('/')}>
               <span className="text-2xl">✒️</span>
               <span className="text-lg font-bold text-text">QuillSpace</span>
             </div>
@@ -54,7 +54,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm hover:text-gold transition-colors duration-300"
+                    className="text-sm hover:text-accent transition-colors duration-300"
                   >
                     {link.label}
                   </a>
@@ -71,7 +71,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm hover:text-gold transition-colors duration-300"
+                    className="text-sm hover:text-accent transition-colors duration-300"
                   >
                     {link.label}
                   </a>
@@ -88,7 +88,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm hover:text-gold transition-colors duration-300"
+                    className="text-sm hover:text-accent transition-colors duration-300"
                   >
                     {link.label}
                   </a>
@@ -105,7 +105,7 @@ const Footer = () => {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-xl hover:text-gold transition-colors duration-300"
+                  className="text-xl hover:text-accent transition-colors duration-300"
                   title={link.label}
                 >
                   {link.icon}
@@ -121,13 +121,13 @@ const Footer = () => {
             © {currentYear} QuillSpace. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#privacy" className="text-sm hover:text-gold transition-colors">
+            <a href="#privacy" className="text-sm hover:text-accent transition-colors">
               Privacy
             </a>
-            <a href="#terms" className="text-sm hover:text-gold transition-colors">
+            <a href="#terms" className="text-sm hover:text-accent transition-colors">
               Terms
             </a>
-            <a href="#contact" className="text-sm hover:text-gold transition-colors">
+            <a href="#contact" className="text-sm hover:text-accent transition-colors">
               Contact
             </a>
           </div>

@@ -6,6 +6,7 @@ import RightSidebar from '../components/RightSidebar';
 import PostCard from '../components/PostCard';
 import api from '../services/api';
 import { AuthContext } from '../context/AuthContext';
+import { Flame, Bookmark, Search, PenTool } from 'lucide-react';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const Home = () => {
   // Fetch sidebar data — use dedicated smaller queries (#41 — was fetching 100 posts)
   useEffect(() => {
     if (token) fetchSidebarData();
-  }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const fetchSidebarData = async () => {
     try {
@@ -158,12 +159,12 @@ const Home = () => {
   };
 
   const getPageTitle = () => {
-    if (searchQuery) return { title: `Search: "${searchQuery}"`, subtitle: `Results for "${searchQuery}"` };
+    if (searchQuery) return { title: <span className="flex items-center"><Search className="w-6 h-6 mr-2" /> Search: "{searchQuery}"</span>, subtitle: `Results for "${searchQuery}"` };
     if (isMyPostsPage) return { title: 'My Posts', subtitle: 'All your published articles and drafts.' };
     if (isDraftsPage) return { title: 'Drafts', subtitle: 'Your unpublished drafts.' };
-    if (isTrendingPage) return { title: '🔥 Trending', subtitle: 'Most liked posts right now.' };
-    if (isBookmarksPage) return { title: '🔖 Bookmarks', subtitle: 'Your saved posts.' };
-    if (isExplore) return { title: '🔍 Explore', subtitle: 'Discover great content from all writers.' };
+    if (isTrendingPage) return { title: <span className="flex items-center"><Flame className="w-6 h-6 mr-2 text-accent" /> Trending</span>, subtitle: 'Most liked posts right now.' };
+    if (isBookmarksPage) return { title: <span className="flex items-center"><Bookmark className="w-6 h-6 mr-2 text-accent" /> Bookmarks</span>, subtitle: 'Your saved posts.' };
+    if (isExplore) return { title: <span className="flex items-center"><Search className="w-6 h-6 mr-2" /> Explore</span>, subtitle: 'Discover great content from all writers.' };
     if (isCategoryPage) return { title: `#${category}`, subtitle: `Posts tagged with #${category}` };
     return { title: 'Latest from QuillSpace', subtitle: 'Discover thoughtful stories and ideas from our community.' };
   };
@@ -188,7 +189,7 @@ const Home = () => {
           {/* Loading State */}
           {loading && (
             <div className="flex justify-center items-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-gold" />
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-accent" />
             </div>
           )}
 
@@ -223,9 +224,9 @@ const Home = () => {
               {!isBookmarksPage && (
                 <button
                   onClick={() => navigate('/create')}
-                  className="px-6 py-3 bg-gold text-button-dark font-semibold rounded-lg hover:bg-yellow-400 transition-colors"
+                  className="flex items-center px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors"
                 >
-                  ✍️ Write your first blog
+                  <PenTool className="w-5 h-5 mr-2" /> Write your first blog
                 </button>
               )}
             </div>

@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { AuthContext } from '../context/AuthContext';
-import { validateEmail, validateUsername, validatePassword } from '../utils/validation'; // #37
+import { validateEmail, validateUsername, validatePassword } from '../utils/validation';
+import { Feather, CheckCircle } from 'lucide-react';
 
 const Signup = () => {
   const { register } = useContext(AuthContext);
@@ -94,7 +95,7 @@ const Signup = () => {
             {/* Header */}
             <div className="text-center mb-8">
               <div className="inline-block mb-4">
-                <span className="text-4xl">✒️</span>
+                <Feather className="w-12 h-12 text-accent mx-auto" />
               </div>
               <h1 className="text-3xl font-bold text-text mb-2">Join QuillSpace</h1>
               <p className="text-text-secondary">Start your writing journey today</p>
@@ -118,7 +119,7 @@ const Signup = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="your_username"
                   autoComplete="username"
-                  className="w-full px-4 py-3 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors duration-300"
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors duration-300"
                 />
                 <p className="text-xs text-text-secondary/70 mt-1">3-20 characters, alphanumeric with - and _</p>
               </div>
@@ -132,7 +133,7 @@ const Signup = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   autoComplete="email"
-                  className="w-full px-4 py-3 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors duration-300"
+                  className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors duration-300"
                 />
               </div>
 
@@ -146,7 +147,7 @@ const Signup = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     autoComplete="new-password"
-                    className="w-full px-4 py-3 pr-11 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors duration-300"
+                    className="w-full px-4 py-3 pr-11 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors duration-300"
                   />
                   <EyeToggle show={showPassword} onToggle={() => setShowPassword(!showPassword)} />
                 </div>
@@ -163,7 +164,7 @@ const Signup = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
                     autoComplete="new-password"
-                    className="w-full px-4 py-3 pr-11 bg-button-dark border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-gold transition-colors duration-300"
+                    className="w-full px-4 py-3 pr-11 bg-surface border border-border rounded-lg text-text placeholder-text-secondary/50 focus:outline-none focus:border-accent transition-colors duration-300"
                   />
                   <EyeToggle show={showConfirmPassword} onToggle={() => setShowConfirmPassword(!showConfirmPassword)} />
                 </div>
@@ -171,7 +172,7 @@ const Signup = () => {
                   <p className="text-xs text-red-400 mt-1">Passwords don't match</p>
                 )}
                 {confirmPassword && password === confirmPassword && confirmPassword.length >= 8 && (
-                  <p className="text-xs text-green-400 mt-1">✓ Passwords match</p>
+                  <p className="text-xs text-green-400 mt-1 flex items-center"><CheckCircle className="w-3 h-3 mr-1" /> Passwords match</p>
                 )}
               </div>
 
@@ -194,7 +195,7 @@ const Signup = () => {
               <button
                 type="button"
                 onClick={() => navigate('/login')}
-                className="text-gold hover:text-yellow-400 font-semibold transition-colors"
+                className="text-accent hover:text-yellow-400 font-semibold transition-colors"
               >
                 Sign in
               </button>
@@ -206,7 +207,7 @@ const Signup = () => {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="text-text-secondary hover:text-gold transition-colors text-sm"
+              className="text-text-secondary hover:text-accent transition-colors text-sm"
             >
               ← Back to Home
             </button>

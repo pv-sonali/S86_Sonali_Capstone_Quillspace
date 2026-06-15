@@ -59,7 +59,27 @@ const authorize = (...roles) => {
   };
 };
 
+/**
+ * Optional Auth - populates req.user if token is present, but proceeds anyway if not
+ */
+const optionalAuth = async (req, res, next) => {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = verifyToken(token);
+      req.user = await User.findById(decoded.id).select('-password');
+    } catch (error) {
+      // Just ignore error and proceed as unauthenticated
+    }
+  }
+  next();
+};
+
 module.exports = {
   protect,
   authorize,
+  optionalAuth,
 };

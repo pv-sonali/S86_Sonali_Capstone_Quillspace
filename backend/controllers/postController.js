@@ -188,11 +188,7 @@ const getAllPosts = async (req, res, next) => {
  */
 const getPostById = async (req, res, next) => {
   try {
-    const post = await Post.findByIdAndUpdate(
-      req.params.id,
-      { $inc: { views: 1 } }, // track views (#17)
-      { new: true }
-    )
+    let post = await Post.findById(req.params.id)
       .populate('author', 'username email profileImage bio')
       .populate({
         path: 'comments',
@@ -204,6 +200,31 @@ const getPostById = async (req, res, next) => {
 
     if (!post) {
       return sendError(res, 404, 'Post not found');
+    }
+
+    if (post.status === 'draft') {
+      const reqUserId = req.user?.id || req.user?._id?.toString();
+      const isAuthor = reqUserId && post.author._id.toString() === reqUserId;
+      const isAdmin = req.user?.role === 'admin';
+      
+      if (!isAuthor && !isAdmin) {
+        return sendError(res, 404, 'Post not found');
+      }
+    } else {
+      // It's published, increment views
+      post = await Post.findByIdAndUpdate(
+        post._id,
+        { $inc: { views: 1 } },
+        { new: true }
+      )
+        .populate('author', 'username email profileImage bio')
+        .populate({
+          path: 'comments',
+          populate: {
+            path: 'author',
+            select: 'username profileImage',
+          },
+        });
     }
 
     sendSuccess(res, 200, 'Post retrieved successfully', { post });
@@ -219,11 +240,9 @@ const getPostById = async (req, res, next) => {
  */
 const getPostBySlug = async (req, res, next) => {
   try {
-    const post = await Post.findOneAndUpdate(
-      { slug: req.params.slug, status: 'published' },
-      { $inc: { views: 1 } }, // track views (#17)
-      { new: true }
-    )
+    const query = { slug: req.params.slug };
+    
+    let post = await Post.findOne(query)
       .populate('author', 'username email profileImage bio')
       .populate({
         path: 'comments',
@@ -235,6 +254,31 @@ const getPostBySlug = async (req, res, next) => {
 
     if (!post) {
       return sendError(res, 404, 'Post not found');
+    }
+
+    if (post.status === 'draft') {
+      const reqUserId = req.user?.id || req.user?._id?.toString();
+      const isAuthor = reqUserId && post.author._id.toString() === reqUserId;
+      const isAdmin = req.user?.role === 'admin';
+      
+      if (!isAuthor && !isAdmin) {
+        return sendError(res, 404, 'Post not found');
+      }
+    } else {
+      // It's published, increment views
+      post = await Post.findByIdAndUpdate(
+        post._id,
+        { $inc: { views: 1 } },
+        { new: true }
+      )
+        .populate('author', 'username email profileImage bio')
+        .populate({
+          path: 'comments',
+          populate: {
+            path: 'author',
+            select: 'username profileImage',
+          },
+        });
     }
 
     sendSuccess(res, 200, 'Post retrieved successfully', { post });

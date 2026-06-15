@@ -10,7 +10,7 @@ const {
   toggleLike,
   getStats,
 } = require('../controllers/postController');
-const { protect } = require('../middleware/authMiddleware');
+const { protect, optionalAuth } = require('../middleware/authMiddleware');
 const validate = require('../middleware/validationMiddleware');
 const {
   createPostValidation,
@@ -32,7 +32,7 @@ router.get('/stats', getStats);
  * IMPORTANT: This MUST be declared before /:id to avoid Express
  * matching "slug" as an :id param (#1 — critical fix)
  */
-router.get('/slug/:slug', getPostBySlug);
+router.get('/slug/:slug', optionalAuth, getPostBySlug);
 
 /**
  * @route   POST /api/posts
@@ -46,14 +46,14 @@ router.post('/', protect, createPostValidation, validate, createPost);
  * @desc    Get all posts with pagination and filtering
  * @access  Public
  */
-router.get('/', getAllPosts);
+router.get('/', optionalAuth, getAllPosts);
 
 /**
  * @route   GET /api/posts/:id
  * @desc    Get single post by ID
  * @access  Public
  */
-router.get('/:id', mongoIdValidation, validate, getPostById);
+router.get('/:id', optionalAuth, mongoIdValidation, validate, getPostById);
 
 /**
  * @route   PUT /api/posts/:id
